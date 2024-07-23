@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.rudycharles.lsthmod.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "lsthmod.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
