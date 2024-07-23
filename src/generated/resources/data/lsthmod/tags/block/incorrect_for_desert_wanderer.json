@@ -1,0 +1,8 @@
+{
+  "remove": [
+    "#lsthmod:rare_ore"
+  ],
+  "values": [
+    "#minecraft:incorrect_for_iron_tool"
+  ]
+}

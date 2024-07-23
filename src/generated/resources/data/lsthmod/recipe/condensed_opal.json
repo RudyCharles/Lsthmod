@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "lsthmod:opal"
+    },
+    "E": {
+      "item": "lsthmod:condensed_opal"
+    }
+  },
+  "pattern": [
+    "###",
+    "#E#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "id": "lsthmod:condensed_opal"
+  }
+}

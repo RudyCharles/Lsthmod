@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_condensed_opal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "lsthmod:condensed_opal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "lsthmod:satchel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_condensed_opal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "lsthmod:satchel"
+    ]
+  }
+}

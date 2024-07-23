@@ -1,0 +1,7 @@
+// 1.21	2024-07-23T11:10:21.3970564	Global Loot Modifiers : lsthmod
+7d718634ca3286e02ff9c65e221aa9e1a1d40929 data/lsthmod/loot_modifiers/cloth_from_treasure.json
+cb8d45e2037d77523c7e6586e107e63144bef406 data/lsthmod/loot_modifiers/copal_from_ore.json
+f1b345ef541646bea935ac7e90b58446a65afeb6 data/lsthmod/loot_modifiers/multitool_from_treasure.json
+0b04258fa9735415b8c69f235b07d09e2d7443f6 data/lsthmod/loot_modifiers/opal_from_stone.json
+d46f61043a4e9790cb8f01436cda97795021f946 data/lsthmod/loot_modifiers/opal_from_treasure.json
+d7380547281d2cecd3c6dcd1653892fdeeadf9ba data/neoforge/loot_modifiers/global_loot_modifiers.json

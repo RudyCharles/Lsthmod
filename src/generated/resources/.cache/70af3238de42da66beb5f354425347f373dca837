@@ -1,0 +1,7 @@
+// 1.21	2024-07-23T11:10:21.4000592	Block Tags
+fc11cc2292396087dac4609615298eb96cf61154 data/lsthmod/tags/block/incorrect_for_desert_wanderer.json
+82362cfbd1836db13c7e9d36c8712821e795ac55 data/lsthmod/tags/block/mineable/multitool.json
+998c24532ec5fa37e684888bad9f232a1e652f37 data/lsthmod/tags/block/needs_desert_wanderer.json
+d2317574443bed55a08bf712e3351f87cb567ad9 data/lsthmod/tags/block/rare_ore.json
+5bb4d77fa5884c3e7263880270878ff49c50a055 data/minecraft/tags/block/mineable/pickaxe.json
+5bb4d77fa5884c3e7263880270878ff49c50a055 data/minecraft/tags/block/needs_iron_tool.json

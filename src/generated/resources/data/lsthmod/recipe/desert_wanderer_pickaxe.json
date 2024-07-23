@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "O": {
+      "item": "lsthmod:condensed_opal"
+    },
+    "P": {
+      "item": "minecraft:golden_pickaxe"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "GGO",
+    " PG",
+    "S G"
+  ],
+  "result": {
+    "count": 1,
+    "id": "lsthmod:desert_wanderer_pickaxe"
+  }
+}

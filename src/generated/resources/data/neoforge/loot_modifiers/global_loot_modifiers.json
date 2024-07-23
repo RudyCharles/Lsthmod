@@ -1,0 +1,10 @@
+{
+  "entries": [
+    "lsthmod:multitool_from_treasure",
+    "lsthmod:cloth_from_treasure",
+    "lsthmod:copal_from_ore",
+    "lsthmod:opal_from_stone",
+    "lsthmod:opal_from_treasure"
+  ],
+  "replace": false
+}

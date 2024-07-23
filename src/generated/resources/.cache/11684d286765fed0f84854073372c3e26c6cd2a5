@@ -1,0 +1,9 @@
+// 1.21	2024-07-23T11:10:21.399058	Enchantment Tags
+9b49c29c7a56c2e1e3e78e1a6f22266d27411563 data/lsthmod/tags/enchantment/cluster_bomb.json
+c5003c59df2411ebf8bc9ba2eb92510af320b9e4 data/lsthmod/tags/enchantment/field_prep.json
+43e3434c36cded988b88fc3144d1f6926fd12943 data/minecraft/tags/enchantment/exclusive_set/damage.json
+1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/in_enchanting_table.json
+e34e2dc7abe7283b7d6ffd4662af857f6158115c data/minecraft/tags/enchantment/non_treasure.json
+1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/on_random_loot.json
+1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/on_traded_equipment.json
+1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/tradeable.json

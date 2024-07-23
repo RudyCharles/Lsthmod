@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "lsthmod:item/desert_wanderer_multitool"
+  }
+}

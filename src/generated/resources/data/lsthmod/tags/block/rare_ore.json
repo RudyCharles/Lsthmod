@@ -1,0 +1,9 @@
+{
+  "values": [
+    "lsthmod:opal_ore",
+    "#c:ores/diamond",
+    "#c:ores/emerald",
+    "#c:ores/netherite_scrap",
+    "#c:ores/gold"
+  ]
+}

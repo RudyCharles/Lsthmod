@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "lsthmod:enchanted_cloth"
+    },
+    "L": {
+      "item": "minecraft:lead"
+    },
+    "O": {
+      "item": "lsthmod:condensed_opal"
+    }
+  },
+  "pattern": [
+    "LCO",
+    "C C",
+    "CCC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "lsthmod:satchel"
+  }
+}
