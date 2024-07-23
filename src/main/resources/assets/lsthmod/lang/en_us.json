@@ -1,0 +1,27 @@
+{
+  "item.lsthmod.opal": "Opal",
+  "item.lsthmod.condensed_opal": "Condensed Opal",
+  "item.lsthmod.enchanted_cloth": "Enchanted Cloth",
+  "item.lsthmod.satchel": "Satchel",
+  "item.lsthmod.desert_wanderer_pickaxe": "Desert Wanderer Pickaxe",
+  "item.lsthmod.desert_wanderer_multitool": "Handy Multitool",
+  "item.lsthmod.desert_sabre": "Desert Sabre",
+
+
+  "item.lsthmod.lightning_bottle.effect.lightning_potion": "Bottle o' Lightning",
+
+  "block.lsthmod.opal_ore": "Opal Ore",
+
+  "creativetab.tabone": "Random Things",
+
+  "enchantment.lsthmod.magic_protection": "Magic Protection",
+  "enchantment.lsthmod.deeper_pocket": "Deeper Pocket",
+  "enchantment.lsthmod.cluster_bomb": "Cluster Bomb",
+  "enchantment.lsthmod.enforcer": "Enforcer",
+  "enchantment.lsthmod.slayer": "Slayer",
+  "enchantment.lsthmod.field_prep": "Field Prep",
+  "enchantment.lsthmod.powerful_potion": "Stronger Brew",
+  "enchantment.lsthmod.larger_potion": "More Coverage",
+
+  "effect.lsthmod.charged": "Statically Charged"
+}
