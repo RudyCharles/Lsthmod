@@ -1,6 +1,7 @@
-// 1.21	2024-07-23T11:10:21.4040621	Item Tags
+// 1.21	2024-08-09T15:49:18.7712643	Item Tags
 fa0c838af3203b5ded43090f0cacf3022e211fa9 data/lsthmod/tags/item/potion_ammo.json
 1c4c44f15df4db75a729ec8d0de3b52dee1fb8c6 data/lsthmod/tags/item/potion_slingers.json
+3a52b0e0f173bca6684551027e536385a1ef134e data/minecraft/tags/item/dyeable.json
 1c4c44f15df4db75a729ec8d0de3b52dee1fb8c6 data/minecraft/tags/item/enchantable/durability.json
 1c4c44f15df4db75a729ec8d0de3b52dee1fb8c6 data/minecraft/tags/item/enchantable/vanishing.json
 d0f00397223f9bd4296864b0e589b41c5f4fe7e1 data/minecraft/tags/item/pickaxes.json

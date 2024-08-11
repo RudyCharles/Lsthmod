@@ -10,11 +10,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.rudycharles.lsthmod.Entity.custom.SatchelPotion;
-import net.rudycharles.lsthmod.enchantment.ModEnchantment;
+import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
+import net.rudycharles.lsthmod.Item.ModItem;
 import net.rudycharles.lsthmod.Util.ModTag;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -117,5 +120,10 @@ public class SatchelItem extends ProjectileWeaponItem {
     @Override
     protected int getDurabilityUse(ItemStack pStack) {
         return 2;
+    }
+
+    @Override
+    public ItemStack getDefaultCreativeAmmo(@Nullable Player player, ItemStack projectileWeaponItem) {
+        return ModItem.MAGIC_POTION.get().getDefaultInstance();
     }
 }

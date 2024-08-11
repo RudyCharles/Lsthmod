@@ -34,9 +34,11 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.rudycharles.lsthmod.Block.ModBlock;
 import net.rudycharles.lsthmod.Effect.ModEffect;
+import net.rudycharles.lsthmod.Enchantment.effects.ModEnchantmentEffect;
 import net.rudycharles.lsthmod.Entity.ModEntity;
 import net.rudycharles.lsthmod.Entity.attribute.ModAttribute;
 import net.rudycharles.lsthmod.Item.CreativeModTab;
+import net.rudycharles.lsthmod.Item.ModArmorTier;
 import net.rudycharles.lsthmod.Item.ModItem;
 import net.rudycharles.lsthmod.Loot.ModLootModifier;
 import net.rudycharles.lsthmod.Potion.ModPotion;
@@ -65,6 +67,8 @@ public class Lsthmod {
         ModAttribute.register(modEventBus);
         ModEffect.register(modEventBus);
         ModPotion.register(modEventBus);
+        ModEnchantmentEffect.register(modEventBus);
+        ModArmorTier.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

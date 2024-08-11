@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Lsthmod;
 import net.rudycharles.lsthmod.Worldgen.ModBiomeModifier;
 import net.rudycharles.lsthmod.Worldgen.ModConfiguredFeatures;
@@ -21,7 +22,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
     }
 
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-            .add(Registries.ENCHANTMENT, net.rudycharles.lsthmod.enchantment.ModEnchantment::bootstrap)
+            .add(Registries.ENCHANTMENT, ModEnchantment::bootstrap)
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifier::bootstrap);

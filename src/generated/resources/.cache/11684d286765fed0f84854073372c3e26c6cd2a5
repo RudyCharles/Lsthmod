@@ -1,9 +1,11 @@
-// 1.21	2024-07-23T11:10:21.399058	Enchantment Tags
+// 1.21	2024-07-31T11:32:10.8026279	Enchantment Tags
 9b49c29c7a56c2e1e3e78e1a6f22266d27411563 data/lsthmod/tags/enchantment/cluster_bomb.json
 c5003c59df2411ebf8bc9ba2eb92510af320b9e4 data/lsthmod/tags/enchantment/field_prep.json
 43e3434c36cded988b88fc3144d1f6926fd12943 data/minecraft/tags/enchantment/exclusive_set/damage.json
 1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/in_enchanting_table.json
-e34e2dc7abe7283b7d6ffd4662af857f6158115c data/minecraft/tags/enchantment/non_treasure.json
+54872790c10aa8ed85f7e7a75aa784006c1be6cb data/minecraft/tags/enchantment/non_treasure.json
 1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/on_random_loot.json
 1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/on_traded_equipment.json
-1d879624dab6dc7f3b83e7dd6b2e4934064e2fd0 data/minecraft/tags/enchantment/tradeable.json
+a6bd8135df581c94a1938fcc261583c7dae5840d data/minecraft/tags/enchantment/smelts_loot.json
+56fd584a7c9cdf5d7436637b7269f9702ab9222a data/minecraft/tags/enchantment/tradeable.json
+41724f6264b8ce394415a33105f1a0e2d7ad7580 data/minecraft/tags/enchantment/treasure.json

@@ -2,5 +2,7 @@
   "remove": [
     "minecraft:sharpness"
   ],
-  "values": []
+  "values": [
+    "lsthmod:cluster_bomb"
+  ]
 }

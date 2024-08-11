@@ -1,0 +1,71 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.lsthmod.fire_aura"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "attacker",
+        "effect": {
+          "type": "lsthmod:fire_aura"
+        },
+        "enchanted": "victim"
+      }
+    ],
+    "minecraft:tick": [
+      {
+        "effect": {
+          "type": "minecraft:spawn_particles",
+          "horizontal_position": {
+            "type": "in_bounding_box"
+          },
+          "horizontal_velocity": {
+            "movement_scale": -0.2
+          },
+          "particle": {
+            "type": "minecraft:flame"
+          },
+          "speed": 1.0,
+          "vertical_position": {
+            "type": "entity_position",
+            "offset": 0.5
+          },
+          "vertical_velocity": {
+            "base": 0.15
+          }
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "flags": {
+              "is_flying": false,
+              "is_on_ground": true
+            },
+            "movement": {
+              "horizontal_speed": {
+                "min": 0.0
+              }
+            },
+            "periodic_tick": 5
+          }
+        }
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 20
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 20
+  },
+  "slots": [
+    "chest"
+  ],
+  "supported_items": "#minecraft:chest_armor",
+  "weight": 1
+}

@@ -1,10 +1,12 @@
-// 1.21	2024-07-23T11:10:21.4040621	Item Models: lsthmod
+// 1.21	2024-08-09T15:49:18.7732663	Item Models: lsthmod
 20d0359117c7ec9f10a7e9934e138c2ec2e9625e assets/lsthmod/models/item/condensed_opal.json
+4741966ee74177471e89751d96e528aec149f497 assets/lsthmod/models/item/desert_cloak.json
 6964b2b8f1242194b5f9770de713153d00ddb36b assets/lsthmod/models/item/desert_sabre.json
+b490b1f74b913b066b2a1a9c2b118d49c341e65f assets/lsthmod/models/item/desert_tunic.json
 56263357ecdb3568c115a301a4f2d7a090b7a503 assets/lsthmod/models/item/desert_wanderer_multitool.json
 0ace7f680e5a3bfdaa5c860049bc98d4c81616bc assets/lsthmod/models/item/desert_wanderer_pickaxe.json
 1c15b731e278e952d216c0050500dd4af40d699c assets/lsthmod/models/item/enchanted_cloth.json
 287a81165c8f4901da503a2dab59a89dcf114a5b assets/lsthmod/models/item/lightning_bottle.json
 08da435b3dfb4999c290493f59816ef97f205120 assets/lsthmod/models/item/magic_potion.json
 a3bc729621bdf4b867db2bf34bddbfce6ec9ba93 assets/lsthmod/models/item/opal.json
-e6f749da9c7ef8ec3044eb58e401bca95ca26cd2 assets/lsthmod/models/item/satchel.json
+6c89e98eed132b83628c9edd9beda5bfab701406 assets/lsthmod/models/item/satchel.json

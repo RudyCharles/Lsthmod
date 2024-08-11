@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lsthmod:item/satchel"
+    "layer0": "lsthmod:item/desert_cloak"
   }
 }

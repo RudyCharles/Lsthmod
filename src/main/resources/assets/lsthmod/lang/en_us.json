@@ -8,7 +8,7 @@
   "item.lsthmod.desert_sabre": "Desert Sabre",
 
 
-  "item.lsthmod.lightning_bottle.effect.lightning_potion": "Bottle o' Lightning",
+  "item.lsthmod.lightning_bottle.effect.empty": "Bottle o' Lightning",
 
   "block.lsthmod.opal_ore": "Opal Ore",
 
@@ -22,6 +22,8 @@
   "enchantment.lsthmod.field_prep": "Field Prep",
   "enchantment.lsthmod.powerful_potion": "Stronger Brew",
   "enchantment.lsthmod.larger_potion": "More Coverage",
+  "enchantment.lsthmod.chilled": "Frost Touched",
+  "enchantment.lsthmod.fire_aura": "Fiery Aura",
 
   "effect.lsthmod.charged": "Statically Charged"
 }

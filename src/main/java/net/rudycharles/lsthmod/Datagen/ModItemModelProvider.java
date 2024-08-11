@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
@@ -26,7 +27,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItem.CONDENSED_OPAL.get());
         basicItem(ModItem.OPAL.get());
         basicItem(ModItem.MAGIC_POTION.get());
-        HandHeldItem(ModItem.SATCHEL.get());
+        basicItem(ModItem.SATCHEL.get());
         basicItem(ModItem.ENCHANTED_CLOTH.get());
         basicItem(ModItem.LIGHTNING_BOTTLE.get());
 

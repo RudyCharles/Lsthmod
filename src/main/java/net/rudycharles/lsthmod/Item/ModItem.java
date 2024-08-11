@@ -1,33 +1,44 @@
 package net.rudycharles.lsthmod.Item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.rudycharles.lsthmod.Effect.ModEffect;
 import net.rudycharles.lsthmod.Lsthmod;
 import net.rudycharles.lsthmod.Item.custom.MultitoolItem;
 import net.rudycharles.lsthmod.Item.custom.SabreItem;
 import net.rudycharles.lsthmod.Item.custom.SatchelItem;
 import net.rudycharles.lsthmod.Potion.ModPotion;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ModItem {
-    public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(BuiltInRegistries.ITEM, Lsthmod.MODID);
+    public static final ResourceLocation BASE_SWEEPING_RATIO = ResourceLocation.fromNamespaceAndPath(Lsthmod.MODID, "base_sweeping_ratio");
 
-    public static final Supplier<Item> OPAL =
-            ITEMS.register("opal",() -> new Item(new Item.Properties()));
+    public static final DeferredRegister.Items ITEMS =
+            DeferredRegister.createItems(Lsthmod.MODID);
 
-    public static final Supplier<Item> CONDENSED_OPAL =
+    public static final DeferredItem<Item> OPAL =
+            ITEMS.registerItem("opal",Item::new, new Item.Properties());
+
+    public static final DeferredItem<Item> CONDENSED_OPAL =
             ITEMS.register("condensed_opal", () -> new Item(new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)) );
@@ -76,7 +87,9 @@ public class ModItem {
             ITEMS.register("lightning_bottle", () -> new SplashPotionItem(new Item.Properties()
                     .stacksTo(16)
                     .component(DataComponents.POTION_CONTENTS,
-                            new PotionContents(ModPotion.LIGHTNING_POTION))
+                            new PotionContents(Optional.empty(),
+                                    Optional.empty(),
+                                    List.of(new MobEffectInstance(ModEffect.CHARGED_EFFECT, 140, 1))))
             ));
 
     public static final Supplier<Item> MAGIC_POTION =

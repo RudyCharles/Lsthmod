@@ -13,9 +13,6 @@ public class ModPotion {
     public static final DeferredRegister<Potion> POTION =
             DeferredRegister.create(Registries.POTION, Lsthmod.MODID);
 
-    public static final Holder<Potion> LIGHTNING_POTION =
-            POTION.register("lightning_potion", () -> new Potion(new MobEffectInstance(ModEffect.CHARGED_EFFECT, 200, 1)));
-
     public static void register(IEventBus eventBus) {
         POTION.register(eventBus);
     }

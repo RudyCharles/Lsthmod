@@ -28,12 +28,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.rudycharles.lsthmod.Datagen.ModDatapackProvider;
-import net.rudycharles.lsthmod.enchantment.ModEnchantment;
+import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Entity.ModEntity;
 import net.rudycharles.lsthmod.Item.ModItem;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -72,12 +73,14 @@ public class SatchelPotion extends ThrowableItemProjectile {
             Direction direction = pResult.getDirection();
             BlockPos blockpos = pResult.getBlockPos();
             BlockPos blockpos1 = blockpos.relative(direction);
-            PotionContents potioncontents = itemstack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
+            PotionContents potioncontents = (PotionContents)itemstack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
             if (potioncontents.is(Potions.WATER)) {
                 this.dowseFire(blockpos1);
                 this.dowseFire(blockpos1.relative(direction.getOpposite()));
+                Iterator var7 = Direction.Plane.HORIZONTAL.iterator();
 
-                for (Direction direction1 : Direction.Plane.HORIZONTAL) {
+                while(var7.hasNext()) {
+                    Direction direction1 = (Direction)var7.next();
                     this.dowseFire(blockpos1.relative(direction1));
                 }
             }
@@ -100,14 +103,14 @@ public class SatchelPotion extends ThrowableItemProjectile {
                             potioncontents.getAllEffects(), pResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult)pResult).getEntity() : null
                     );
                 }
-            } else {
+            } else if (itemstack.is(ModItem.MAGIC_POTION.get())){
                 this.applyDamage(pResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult)pResult).getEntity() : null);
             }
 
             int i = potioncontents.potion().isPresent() && potioncontents.potion().get().value().hasInstantEffects() ? 2007 : 2002;
             if (potioncontents.hasEffects() || potioncontents.is(Potions.WATER) ) {
                 this.level().levelEvent(i, this.blockPosition(), potioncontents.getColor());
-            } else {
+            } else if (itemstack.is(ModItem.MAGIC_POTION.get())) {
                 this.level().levelEvent(i, this.blockPosition(), 6684876);
             }
             this.discard();
@@ -157,7 +160,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
                     if (d0 <= rad + (level*3)) {
                         double d1 = 1.0 - sqrt(d0) / 5.0;
                         double d3 = this.position().x - livingentity.position().x;
-                        double d4 = this.position().z - livingentity.position().z ;
+                        double d4 = this.position().z - livingentity.position().z;
                         int i = EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.POWERFUL_POTION), livingEntity2);
                         livingentity.hurt(damagesource, (float) ((dmg + (i * 2)) * d1));
                         livingentity.knockback(0.4*d1,d3,d4);

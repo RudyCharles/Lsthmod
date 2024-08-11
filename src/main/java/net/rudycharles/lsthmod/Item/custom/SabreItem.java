@@ -1,23 +1,30 @@
 package net.rudycharles.lsthmod.Item.custom;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.rudycharles.lsthmod.Lsthmod;
 
-public class SabreItem extends SwordItem {
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
 
-    public static final ResourceLocation BASE_SWEEPING_RATIO = ResourceLocation.fromNamespaceAndPath(Lsthmod.MODID, "base_sweeping_ratio");
+import static net.rudycharles.lsthmod.Item.ModItem.BASE_SWEEPING_RATIO;
+
+public class SabreItem extends SwordItem {
 
     public SabreItem(Tier pTier, Properties pProperties) {
         super(pTier, pProperties);

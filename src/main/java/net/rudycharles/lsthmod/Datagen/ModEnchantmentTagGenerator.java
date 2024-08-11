@@ -7,7 +7,7 @@ import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.rudycharles.lsthmod.Lsthmod;
-import net.rudycharles.lsthmod.enchantment.ModEnchantment;
+import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Util.ModTag;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,15 +24,24 @@ public class ModEnchantmentTagGenerator extends EnchantmentTagsProvider {
         this.tag(ModTag.Enchantments.FIELD_PREP).add(ModEnchantment.FIELD_PREP);
 
         this.tag(EnchantmentTags.NON_TREASURE)
-                .add(ModEnchantment.CLUSTER_BOMB,
+                .add(
                         ModEnchantment.MAGIC_PROTECTION,
                         ModEnchantment.DEEPER_RESERVE,
                         ModEnchantment.ENFORCER,
                         ModEnchantment.SLAYER,
                         ModEnchantment.FIELD_PREP,
                         ModEnchantment.POWERFUL_POTION,
-                        ModEnchantment.LARGER_POTION
+                        ModEnchantment.LARGER_POTION,
+                        ModEnchantment.CHILLED
                         );
+        this.tag(EnchantmentTags.TREASURE).add(
+                ModEnchantment.CLUSTER_BOMB,
+                ModEnchantment.FIRE_AURA
+        );
+        this.tag(EnchantmentTags.TRADEABLE).add(
+                ModEnchantment.CLUSTER_BOMB
+        );
+        this.tag(EnchantmentTags.SMELTS_LOOT).add(ModEnchantment.FIRE_AURA);
         this.tag(EnchantmentTags.DAMAGE_EXCLUSIVE).add(
                 ModEnchantment.ENFORCER,
                 ModEnchantment.SLAYER

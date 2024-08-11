@@ -1,29 +1,30 @@
-package net.rudycharles.lsthmod.enchantment;
+package net.rudycharles.lsthmod.Enchantment;
 
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EnchantmentTags;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.*;
+import net.minecraft.util.valueproviders.ConstantFloat;
+import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
-import net.minecraft.world.item.enchantment.effects.AddValue;
-import net.minecraft.world.item.enchantment.effects.ApplyMobEffect;
-import net.minecraft.world.item.enchantment.effects.SetValue;
+import net.minecraft.world.item.enchantment.effects.*;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.predicates.*;
+import net.rudycharles.lsthmod.Enchantment.effects.ChilledEffect;
+import net.rudycharles.lsthmod.Enchantment.effects.FireAuraEffect;
 import net.rudycharles.lsthmod.Lsthmod;
 import net.rudycharles.lsthmod.Util.ModTag;
 
@@ -37,6 +38,8 @@ public class ModEnchantment {
     public static final ResourceKey<Enchantment> DEEPER_RESERVE = key("deeper_pocket");
     public static final ResourceKey<Enchantment> ENFORCER = key("enforcer");
     public static final ResourceKey<Enchantment> SLAYER = key("slayer");
+    public static final ResourceKey<Enchantment> CHILLED = key("chilled");
+    public static final ResourceKey<Enchantment> FIRE_AURA = key("fire_aura");
 
     public static void bootstrap(BootstrapContext<Enchantment> bootstrapContext) {
         register(bootstrapContext, MAGIC_PROTECTION,
@@ -117,6 +120,73 @@ public class ModEnchantment {
                                         LootContext.EntityTarget.THIS,
                                         EntityPredicate.Builder.entity().entityType(EntityTypePredicate.of(ModTag.EntityTypes.BOSS))
                                 )
+                        )
+        );
+        register(bootstrapContext, CHILLED,
+                Enchantment.enchantment(
+                        Enchantment.definition(
+                                bootstrapContext.lookup(Registries.ITEM).getOrThrow(ItemTags.FIRE_ASPECT_ENCHANTABLE),
+                                bootstrapContext.lookup(Registries.ITEM).getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),
+                                2,
+                                2,
+                                Enchantment.dynamicCost(10, 20),
+                                Enchantment.dynamicCost(60, 20),
+                                4,
+                                EquipmentSlotGroup.MAINHAND)
+                        )
+                        .exclusiveWith(bootstrapContext.lookup(Registries.ENCHANTMENT).getOrThrow(EnchantmentTags.SMELTS_LOOT))
+                        .withEffect(
+                                EnchantmentEffectComponents.POST_ATTACK,
+                                EnchantmentTarget.ATTACKER,
+                                EnchantmentTarget.VICTIM,
+                                AllOf.entityEffects(new ChilledEffect(LevelBasedValue.perLevel(210))),
+                                DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().isDirect(true))
+                        )
+                        .withEffect(
+                                EnchantmentEffectComponents.POST_ATTACK,
+                                EnchantmentTarget.ATTACKER,
+                                EnchantmentTarget.VICTIM,
+                                new ApplyMobEffect(HolderSet.direct(MobEffects.MOVEMENT_SLOWDOWN),
+                                        LevelBasedValue.constant(1.5F),
+                                        LevelBasedValue.perLevel(1.5F, 0.5F),
+                                        LevelBasedValue.constant(3.0F),
+                                        LevelBasedValue.constant(3.0F)
+                                ),
+                                DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().isDirect(true))
+                        )
+        );
+        EntityPredicate.Builder entitypredicate$builder = EntityPredicate.Builder.entity()
+                .periodicTick(5)
+                .flags(EntityFlagsPredicate.Builder.flags().setIsFlying(false).setOnGround(true))
+                .moving(MovementPredicate.horizontalSpeed(MinMaxBounds.Doubles.atLeast(0)));
+        register(bootstrapContext, FIRE_AURA,
+                Enchantment.enchantment(
+                                Enchantment.definition(
+                                        bootstrapContext.lookup(Registries.ITEM).getOrThrow(ItemTags.CHEST_ARMOR),
+                                        1,
+                                        1,
+                                        Enchantment.dynamicCost(10, 20),
+                                        Enchantment.dynamicCost(60, 20),
+                                        4,
+                                        EquipmentSlotGroup.CHEST)
+                        )
+                        .withEffect(
+                                EnchantmentEffectComponents.POST_ATTACK,
+                                EnchantmentTarget.VICTIM,
+                                EnchantmentTarget.ATTACKER,
+                                new FireAuraEffect()
+                        )
+                        .withEffect(
+                                EnchantmentEffectComponents.TICK,
+                                new SpawnParticlesEffect(
+                                        ParticleTypes.FLAME,
+                                        SpawnParticlesEffect.inBoundingBox(),
+                                        SpawnParticlesEffect.offsetFromEntityPosition(0.5F),
+                                        SpawnParticlesEffect.movementScaled(-0.2F),
+                                        SpawnParticlesEffect.fixedVelocity(ConstantFloat.of(0.15F)),
+                                        ConstantFloat.of(1.0F)
+                                ),
+                                LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, entitypredicate$builder)
                         )
         );
         register(bootstrapContext, DEEPER_RESERVE,
