@@ -30,6 +30,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItem.SATCHEL.get());
         basicItem(ModItem.ENCHANTED_CLOTH.get());
         basicItem(ModItem.LIGHTNING_BOTTLE.get());
+        basicItem(ModItem.SCULK_VIAL.get());
 
         HandHeldItem(ModItem.DESERT_WANDERER_PICKAXE.get());
         HandHeldItem(ModItem.DESERT_WANDERER_MULTITOOL.get());

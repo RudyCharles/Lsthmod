@@ -14,12 +14,12 @@ public class ModAttribute {
             DeferredRegister.create(Registries.ATTRIBUTE, Lsthmod.MODID);
 
     public static final Holder<Attribute> POTION_SPLASH =
-            ATTRIBUTE.register("splash_radius", () ->
-                    new RangedAttribute("lsthmod.splash_radius",4.0f,0f,Double.MAX_VALUE).setSyncable(true));
+            ATTRIBUTE.register("player.splash_radius", () ->
+                    new RangedAttribute("player.name.splash_radius",4.0f,0f,Double.MAX_VALUE).setSyncable(true));
 
     public static final Holder<Attribute> POTION_VELOCITY =
-            ATTRIBUTE.register("velocity", () ->
-                    new RangedAttribute("lsthmod.velocity",4.0f,0f,Double.MAX_VALUE).setSyncable(true));
+            ATTRIBUTE.register("player.velocity", () ->
+                    new RangedAttribute("player.name.velocity",4.0f,0f,Double.MAX_VALUE).setSyncable(true));
 
     public static void register(IEventBus eventBus) {
         ATTRIBUTE.register(eventBus);

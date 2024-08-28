@@ -6,7 +6,9 @@
   "item.lsthmod.desert_wanderer_pickaxe": "Desert Wanderer Pickaxe",
   "item.lsthmod.desert_wanderer_multitool": "Handy Multitool",
   "item.lsthmod.desert_sabre": "Desert Sabre",
+  "item.lsthmod.sculk_vial": "Sculk Vial",
 
+  "tooltip.lsthmod.vial.component1": "Stored Experience:",
 
   "item.lsthmod.lightning_bottle.effect.empty": "Bottle o' Lightning",
 
@@ -25,5 +27,7 @@
   "enchantment.lsthmod.chilled": "Frost Touched",
   "enchantment.lsthmod.fire_aura": "Fiery Aura",
 
-  "effect.lsthmod.charged": "Statically Charged"
+  "effect.lsthmod.charged": "Statically Charged",
+
+  "player.name.splash_radius": "Splash Radius"
 }

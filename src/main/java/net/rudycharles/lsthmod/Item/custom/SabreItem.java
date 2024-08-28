@@ -18,11 +18,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.rudycharles.lsthmod.Lsthmod;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Consumer;
-
-import static net.rudycharles.lsthmod.Item.ModItem.BASE_SWEEPING_RATIO;
 
 public class SabreItem extends SwordItem {
 
@@ -42,11 +37,6 @@ public class SabreItem extends SwordItem {
                 .add(
                         Attributes.ATTACK_SPEED,
                         new AttributeModifier(BASE_ATTACK_SPEED_ID, (double) pAttackSpeed, AttributeModifier.Operation.ADD_VALUE),
-                        EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.SWEEPING_DAMAGE_RATIO,
-                        new AttributeModifier(BASE_SWEEPING_RATIO, (double) pSweepingRatio, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
                 .build();

@@ -18,11 +18,13 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.rudycharles.lsthmod.Effect.ModEffect;
+import net.rudycharles.lsthmod.Item.custom.XpVialItem;
 import net.rudycharles.lsthmod.Lsthmod;
 import net.rudycharles.lsthmod.Item.custom.MultitoolItem;
 import net.rudycharles.lsthmod.Item.custom.SabreItem;
 import net.rudycharles.lsthmod.Item.custom.SatchelItem;
 import net.rudycharles.lsthmod.Potion.ModPotion;
+import net.rudycharles.lsthmod.Registries.ModDataComponents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ModItem {
-    public static final ResourceLocation BASE_SWEEPING_RATIO = ResourceLocation.fromNamespaceAndPath(Lsthmod.MODID, "base_sweeping_ratio");
 
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(Lsthmod.MODID);
@@ -95,9 +96,16 @@ public class ModItem {
     public static final Supplier<Item> MAGIC_POTION =
             ITEMS.register("magic_potion", () -> new SplashPotionItem(new Item.Properties()
                     .stacksTo(16)
-                    .component(DataComponents.POTION_CONTENTS,
-                            PotionContents.EMPTY)
             ));
+
+    public static final DeferredItem<Item> SCULK_VIAL =
+            ITEMS.register("sculk_vial", () -> new XpVialItem(
+                    new Item.Properties()
+                            .stacksTo(1)
+                            .rarity(Rarity.RARE)
+                            .component(ModDataComponents.STORED_XP, 0)
+                    )
+            );
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

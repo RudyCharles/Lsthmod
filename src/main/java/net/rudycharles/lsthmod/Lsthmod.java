@@ -42,6 +42,7 @@ import net.rudycharles.lsthmod.Item.ModArmorTier;
 import net.rudycharles.lsthmod.Item.ModItem;
 import net.rudycharles.lsthmod.Loot.ModLootModifier;
 import net.rudycharles.lsthmod.Potion.ModPotion;
+import net.rudycharles.lsthmod.Registries.ModDataComponents;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -69,6 +70,7 @@ public class Lsthmod {
         ModPotion.register(modEventBus);
         ModEnchantmentEffect.register(modEventBus);
         ModArmorTier.register(modEventBus);
+        ModDataComponents.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
