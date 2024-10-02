@@ -1,0 +1,14 @@
+{
+  "type": "lsthmod:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/ancient_city"
+    },
+    {
+      "chance": 0.5,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "lsthmod:sculk_vial"
+}
