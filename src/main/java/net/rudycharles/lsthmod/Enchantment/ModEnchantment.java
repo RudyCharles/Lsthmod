@@ -1,17 +1,14 @@
 package net.rudycharles.lsthmod.Enchantment;
 
 import net.minecraft.advancements.critereon.*;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.*;
 import net.minecraft.util.valueproviders.ConstantFloat;
-import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -25,6 +22,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.rudycharles.lsthmod.Enchantment.effects.ChilledEffect;
 import net.rudycharles.lsthmod.Enchantment.effects.FireAuraEffect;
+import net.rudycharles.lsthmod.Entity.ModEntity;
 import net.rudycharles.lsthmod.Lsthmod;
 import net.rudycharles.lsthmod.Util.ModTag;
 
@@ -33,8 +31,8 @@ public class ModEnchantment {
     public static final ResourceKey<Enchantment> MAGIC_PROTECTION = key("magic_protection");
     public static final ResourceKey<Enchantment> POWERFUL_POTION = key("powerful_potion");
     public static final ResourceKey<Enchantment> LARGER_POTION = key("larger_potion");
-    public static final ResourceKey<Enchantment> CLUSTER_BOMB = key("cluster_bomb");
-    public static final ResourceKey<Enchantment> FIELD_PREP = key("field_prep");
+    public static final ResourceKey<Enchantment> FAN_FIRE = key("cluster_bomb");
+    public static final ResourceKey<Enchantment> FIERY_PREP = key("field_prep");
     public static final ResourceKey<Enchantment> DEEPER_RESERVE = key("deeper_pocket");
     public static final ResourceKey<Enchantment> ENFORCER = key("enforcer");
     public static final ResourceKey<Enchantment> SLAYER = key("slayer");
@@ -200,16 +198,12 @@ public class ModEnchantment {
                                         EquipmentSlotGroup.HAND
                                 )
                         )
-                        .withEffect(EnchantmentEffectComponents.AMMO_USE,
-                                new SetValue(LevelBasedValue.constant(0)),
-                                MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SPLASH_POTION).of(Items.LINGERING_POTION)
-                                ))
         );
-        register(bootstrapContext, CLUSTER_BOMB,
+        register(bootstrapContext, FAN_FIRE,
                 Enchantment.enchantment(Enchantment.definition(
                                         bootstrapContext.lookup(Registries.ITEM).getOrThrow(ModTag.Items.POTION_SLINGERS),
                                         5,
-                                        5,
+                                        2,
                                         Enchantment.constantCost(20),
                                         Enchantment.constantCost(50),
                                         4,
@@ -217,11 +211,11 @@ public class ModEnchantment {
                                 )
                         )
                         .withEffect(EnchantmentEffectComponents.PROJECTILE_COUNT,
-                                new AddValue(LevelBasedValue.perLevel(1.0F)))
+                                new AddValue(LevelBasedValue.perLevel(2.0F)))
                         .withEffect(EnchantmentEffectComponents.PROJECTILE_SPREAD,
-                                new AddValue(LevelBasedValue.perLevel(100.0f)))
+                                new AddValue(LevelBasedValue.perLevel(15.0f)))
         );
-        register(bootstrapContext, FIELD_PREP,
+        register(bootstrapContext, FIERY_PREP,
                 Enchantment.enchantment(Enchantment.definition(
                                 bootstrapContext.lookup(Registries.ITEM).getOrThrow(ModTag.Items.POTION_SLINGERS),
                                 5,

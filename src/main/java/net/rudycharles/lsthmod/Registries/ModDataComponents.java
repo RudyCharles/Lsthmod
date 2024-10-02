@@ -15,6 +15,9 @@ public class ModDataComponents {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPE =
             DeferredRegister.createDataComponents(Lsthmod.MODID);
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> STORED_POTION =
+            register("stored_potion", integerBuilder -> integerBuilder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> STORED_XP =
             register("stored_xp", integerBuilder -> integerBuilder.persistent(ExtraCodecs.POSITIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 

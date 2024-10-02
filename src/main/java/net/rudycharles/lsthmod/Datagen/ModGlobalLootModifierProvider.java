@@ -60,5 +60,12 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 },
                 ModItem.ENCHANTED_CLOTH.get()
         ));
+        add("vial_from_ac", new AddItemModifier(
+                new LootItemCondition[]{
+                        new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.5f).build()
+                },
+                ModItem.SCULK_VIAL.get()
+        ));
     }
 }

@@ -20,8 +20,8 @@ public class ModEnchantmentTagGenerator extends EnchantmentTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        this.tag(ModTag.Enchantments.CLUSTER_BOMB).add(ModEnchantment.CLUSTER_BOMB);
-        this.tag(ModTag.Enchantments.FIELD_PREP).add(ModEnchantment.FIELD_PREP);
+        this.tag(ModTag.Enchantments.CLUSTER_BOMB).add(ModEnchantment.FAN_FIRE);
+        this.tag(ModTag.Enchantments.FIELD_PREP).add(ModEnchantment.FIERY_PREP);
 
         this.tag(EnchantmentTags.NON_TREASURE)
                 .add(
@@ -29,17 +29,17 @@ public class ModEnchantmentTagGenerator extends EnchantmentTagsProvider {
                         ModEnchantment.DEEPER_RESERVE,
                         ModEnchantment.ENFORCER,
                         ModEnchantment.SLAYER,
-                        ModEnchantment.FIELD_PREP,
+                        ModEnchantment.FIERY_PREP,
                         ModEnchantment.POWERFUL_POTION,
                         ModEnchantment.LARGER_POTION,
                         ModEnchantment.CHILLED
                         );
         this.tag(EnchantmentTags.TREASURE).add(
-                ModEnchantment.CLUSTER_BOMB,
+                ModEnchantment.FAN_FIRE,
                 ModEnchantment.FIRE_AURA
         );
         this.tag(EnchantmentTags.TRADEABLE).add(
-                ModEnchantment.CLUSTER_BOMB
+                ModEnchantment.FAN_FIRE
         );
         this.tag(EnchantmentTags.SMELTS_LOOT).add(ModEnchantment.FIRE_AURA);
         this.tag(EnchantmentTags.DAMAGE_EXCLUSIVE).add(

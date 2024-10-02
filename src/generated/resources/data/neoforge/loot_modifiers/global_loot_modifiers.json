@@ -1,6 +1,7 @@
 {
   "entries": [
     "lsthmod:multitool_from_treasure",
+    "lsthmod:vial_from_ac",
     "lsthmod:cloth_from_treasure",
     "lsthmod:copal_from_ore",
     "lsthmod:opal_from_stone",

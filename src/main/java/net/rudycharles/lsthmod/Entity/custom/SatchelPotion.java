@@ -27,7 +27,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.rudycharles.lsthmod.Datagen.ModDatapackProvider;
 import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Entity.ModEntity;
 import net.rudycharles.lsthmod.Item.ModItem;
@@ -163,6 +162,9 @@ public class SatchelPotion extends ThrowableItemProjectile {
                         double d4 = this.position().z - livingentity.position().z;
                         int i = EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.POWERFUL_POTION), livingEntity2);
                         livingentity.hurt(damagesource, (float) ((dmg + (i * 2)) * d1));
+                        if (EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.FIERY_PREP), livingEntity2) > 0) {
+                            livingentity.setRemainingFireTicks(80);
+                        }
                         livingentity.knockback(0.4*d1,d3,d4);
                     }
                 }
@@ -170,6 +172,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
             }
         }
     }
+
 
     private void applySplash(Iterable<MobEffectInstance> pEffects, @Nullable Entity pEntity) {
         AABB aabb = this.getBoundingBox().inflate(4.0, 2.0, 4.0);

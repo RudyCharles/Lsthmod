@@ -18,16 +18,14 @@
 
   "enchantment.lsthmod.magic_protection": "Magic Protection",
   "enchantment.lsthmod.deeper_pocket": "Deeper Pocket",
-  "enchantment.lsthmod.cluster_bomb": "Cluster Bomb",
+  "enchantment.lsthmod.cluster_bomb": "Fan Fire",
   "enchantment.lsthmod.enforcer": "Enforcer",
   "enchantment.lsthmod.slayer": "Slayer",
-  "enchantment.lsthmod.field_prep": "Field Prep",
+  "enchantment.lsthmod.field_prep": "Fiery Cocktail",
   "enchantment.lsthmod.powerful_potion": "Stronger Brew",
-  "enchantment.lsthmod.larger_potion": "More Coverage",
+  "enchantment.lsthmod.larger_potion": "Overflowing Brew",
   "enchantment.lsthmod.chilled": "Frost Touched",
   "enchantment.lsthmod.fire_aura": "Fiery Aura",
 
-  "effect.lsthmod.charged": "Statically Charged",
-
-  "player.name.splash_radius": "Splash Radius"
+  "effect.lsthmod.charged": "Statically Charged"
 }

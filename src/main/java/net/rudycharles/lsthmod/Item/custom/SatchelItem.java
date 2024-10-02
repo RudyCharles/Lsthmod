@@ -4,111 +4,142 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.rudycharles.lsthmod.Entity.attribute.ModAttribute;
+import net.minecraft.world.phys.Vec3;
 import net.rudycharles.lsthmod.Entity.custom.SatchelPotion;
 import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Item.ModItem;
+import net.rudycharles.lsthmod.Registries.ModDataComponents;
 import net.rudycharles.lsthmod.Util.ModTag;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.apache.commons.lang3.math.Fraction;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class SatchelItem extends ProjectileWeaponItem {
-
-    public static final Predicate<ItemStack> POTION = itemStack -> itemStack.is(ModTag.Items.POTION_AMMO);
 
     public SatchelItem(Properties pProperties) {
         super(pProperties);
     }
 
+    public int default_amount = 4;
+
     @Override
     public Predicate<ItemStack> getAllSupportedProjectiles() {
-        return POTION;
+        return null;
     }
 
-    @Override
-    public int getDefaultProjectileRange() {
-        return 5;
+    protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weapon) {
+        //var var1 = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        //int elevel1 = EnchantmentHelper.getEnchantmentLevel(var1.getOrThrow(ModEnchantment.), shooter);
+        SatchelPotion satchelPotion = new SatchelPotion(level, shooter);
+        return satchelPotion;
     }
 
-    @Override
-    protected void shootProjectile(LivingEntity pShooter, Projectile pProjectile, int pIndex, float pVelocity, float pInaccuracy, float pAngle, @Nullable LivingEntity pTarget) {
-            pProjectile.shootFromRotation(pShooter,pShooter.getXRot(),pShooter.getYRot(),0,pVelocity,pInaccuracy);
-    }
-
-    @Override
-    protected Projectile createProjectile(Level pLevel, LivingEntity pShooter, ItemStack pWeapon, ItemStack pAmmo, boolean pIsCrit) {
-        SatchelPotion thrownpotion = new SatchelPotion(pLevel, pShooter);
-        if ((pAmmo.is(ModTag.Items.POTION_AMMO) && EnchantmentHelper.hasTag(pWeapon,ModTag.Enchantments.FIELD_PREP))) {
-            if (pAmmo != ItemStack.EMPTY) {
-                thrownpotion.setItem(pAmmo);
+    protected void shoot(ServerLevel level, LivingEntity shooter, ItemStack weapon,
+                         float velocity, float inaccuracy,
+                         @Nullable LivingEntity target) {
+        int amount = weapon.getOrDefault(ModDataComponents.STORED_POTION, 0);
+        float f = EnchantmentHelper.processProjectileSpread(level, weapon, shooter, 0.0F);
+        var var10000 = EnchantmentHelper.processProjectileCount(level, weapon, shooter, 1);
+        float f1 = amount == 1 ? 0.0F : 2.0F * f / 4;
+        float f2 = (float)((amount - 1) % 2) * f1 / 2.0F;
+        float f3 = 1.0F;
+        if (amount > 0) {
+            for (int i = 0; i < var10000; ++i) {
+                float f4 = f2 + f3 * (float) ((i + 1) / 2) * f1;
+                f3 = -f3;
+                Projectile projectile = this.createProjectile(level, shooter, weapon);
+                this.shootProjectile(shooter, projectile, i, velocity, inaccuracy, f4, target);
+                level.addFreshEntity(projectile);
             }
-            return thrownpotion;
+            level.playSound(null,
+                    shooter.getX(),
+                    shooter.getY(),
+                    shooter.getZ(),
+                    SoundEvents.BUNDLE_REMOVE_ONE,
+                    shooter.getSoundSource(),
+                    1.0F,
+                    1.0f);
         }
-        return thrownpotion;
+    }
+
+    private static Vector3f getProjectileShotVector(LivingEntity shooter, Vec3 distance, float angle) {
+        Vector3f vector3f = distance.toVector3f().normalize();
+        Vector3f vector3f1 = new Vector3f(vector3f).cross(new Vector3f(0.0F, 1.0F, 0.0F));
+        if ((double)vector3f1.lengthSquared() <= 1.0E-7) {
+            Vec3 vec3 = shooter.getUpVector(1.0F);
+            vector3f1 = new Vector3f(vector3f).cross(vec3.toVector3f());
+        }
+
+        Vector3f vector3f2 = new Vector3f(vector3f).rotateAxis((float) (Math.PI / 2), vector3f1.x, vector3f1.y, vector3f1.z);
+        return new Vector3f(vector3f).rotateAxis(angle * (float) (Math.PI / 180.0), vector3f2.x, vector3f2.y, vector3f2.z);
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        ItemStack stack = pPlayer.getProjectile(itemstack);
-        var enchantment = pLevel.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
-            if (pLevel instanceof ServerLevel serverlevel && !stack.isEmpty()) {
-                pLevel.playSound(null,
-                        pPlayer.getX(),
-                        pPlayer.getY(),
-                        pPlayer.getZ(),
-                        SoundEvents.BUNDLE_REMOVE_ONE,
-                        pPlayer.getSoundSource(),
-                        1.0F,
-                        1.0f);
-                List<ItemStack> list = draw(itemstack, stack, pPlayer);
-                if (EnchantmentHelper.hasTag(itemstack, ModTag.Enchantments.CLUSTER_BOMB)) {
-                    this.shoot(serverlevel,
-                        pPlayer,
-                        pPlayer.getUsedItemHand(),
-                        itemstack,
-                        list,
-                            (float) (1 - (EnchantmentHelper.getTagEnchantmentLevel(enchantment.getHolderOrThrow(ModEnchantment.CLUSTER_BOMB), itemstack)* 0.08)),
-                            EnchantmentHelper.getTagEnchantmentLevel(enchantment.getHolderOrThrow(ModEnchantment.CLUSTER_BOMB), itemstack)* 10,
-                        false,
-                        null);
-
-                } else {
-                    this.shoot(serverlevel,
-                            pPlayer,
-                            pPlayer.getUsedItemHand(),
-                            itemstack,
-                            list,
-                            0.75F,
-                            0.0F,
-                            false,
-                            null);
-                }
-                if (!pPlayer.getAbilities().instabuild) {
-                    pPlayer.getCooldowns().addCooldown(this, 10);
-                }
-                pPlayer.awardStat(Stats.ITEM_USED.get(this));
-            }
-        if (!pPlayer.hasInfiniteMaterials() && stack.isEmpty()) {
-            return InteractionResultHolder.fail(itemstack);
+    protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
+        Vector3f vector3f;
+        if (target != null) {
+            double d0 = target.getX() - shooter.getX();
+            double d1 = target.getZ() - shooter.getZ();
+            double d2 = Math.sqrt(d0 * d0 + d1 * d1);
+            double d3 = target.getY(0.3333333333333333) - projectile.getY() + d2 * 0.2F;
+            vector3f = getProjectileShotVector(shooter, new Vec3(d0, d3, d1), angle);
         } else {
-            return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide);
+            Vec3 vec3 = shooter.getUpVector(1.0F);
+            Quaternionf quaternionf = new Quaternionf().setAngleAxis((double)(angle * (float) (Math.PI / 180.0)), vec3.x, vec3.y, vec3.z);
+            Vec3 vec31 = shooter.getViewVector(1.0F);
+            vector3f = vec31.toVector3f().rotate(quaternionf);
         }
+
+        projectile.shoot(vector3f.x(), vector3f.y(), vector3f.z(), velocity, inaccuracy);
+
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pHand) {
+        ItemStack itemstack = player.getItemInHand(pHand);
+        int amount = itemstack.getOrDefault(ModDataComponents.STORED_POTION, 0);
+        var var1 = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        int elevel = EnchantmentHelper.getEnchantmentLevel(var1.getOrThrow(ModEnchantment.DEEPER_RESERVE), player);
+        if (level instanceof ServerLevel serverlevel) {
+            if (amount > 1) {
+                this.shoot(serverlevel,
+                        player,
+                        itemstack,
+                        0.75F,
+                        0.0f,
+                        null);
+                if (!player.hasInfiniteMaterials()) {
+                    itemstack.set(ModDataComponents.STORED_POTION, itemstack.get(ModDataComponents.STORED_POTION) - 1);
+                }
+            } else {
+                this.shoot(serverlevel,
+                    player,
+                    itemstack,
+                    0.75F,
+                    0.0f,
+                    null);
+                if (!player.hasInfiniteMaterials()) {
+                    itemstack.set(ModDataComponents.STORED_POTION, itemstack.get(ModDataComponents.STORED_POTION) - 1);
+                }
+                player.getCooldowns().addCooldown(ModItem.SATCHEL.get(), 60);
+                itemstack.set(ModDataComponents.STORED_POTION, default_amount + (elevel*4));
+            }
+        }
+        player.awardStat(Stats.ITEM_USED.get(this));
+        return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide);
     }
 
     @Override
@@ -117,17 +148,36 @@ public class SatchelItem extends ProjectileWeaponItem {
     }
 
     @Override
+    public int getDefaultProjectileRange() {
+        return 0;
+    }
+
+    @Override
     public boolean isEnchantable(ItemStack pStack) {
         return true;
     }
 
     @Override
-    protected int getDurabilityUse(ItemStack pStack) {
-        return 2;
+    public boolean isBarVisible(ItemStack stack) {
+        int amount = stack.getOrDefault(ModDataComponents.STORED_POTION, 0);
+        return amount > 0;
     }
 
     @Override
-    public ItemStack getDefaultCreativeAmmo(@Nullable Player player, ItemStack projectileWeaponItem) {
-        return ModItem.MAGIC_POTION.get().getDefaultInstance();
+    public int getBarWidth(ItemStack stack) {
+        int amount = stack.getOrDefault(ModDataComponents.STORED_POTION, 0);
+        Fraction fraction = switch (amount) {
+            case 1,5 -> Fraction.ONE_QUARTER;
+            case 2,6 -> Fraction.ONE_HALF;
+            case 3,7 -> Fraction.THREE_QUARTERS;
+            case 4,8 -> Fraction.ONE;
+            default -> Fraction.ZERO;
+        };
+        return Math.min(1 + Mth.mulAndTruncate(fraction, 12), 13);
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        return stack.get(ModDataComponents.STORED_POTION) > 4 ? 13107200 : 4915300;
     }
 }

@@ -36,7 +36,6 @@ public class XpVialItem extends Item {
 
         if (player.isCrouching()) {
             player.giveExperiencePoints(stored_xp);
-            stack.consume(1, player);
             level.playSound(null, player, SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 1, 3);
             return InteractionResultHolder.consume(stack);
         } else {
@@ -46,12 +45,10 @@ public class XpVialItem extends Item {
                     level.playSound(null, player, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 1);
                     stack.set(ModDataComponents.STORED_XP, stored_xp + XP);
                     player.giveExperiencePoints(-XP);
-                    return InteractionResultHolder.success(stack);
                 case 1:
                     level.playSound(null, player, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 1);
                     stack.set(ModDataComponents.STORED_XP, MAX_XP);
                     player.giveExperiencePoints(-(MAX_XP - stored_xp));
-                    return InteractionResultHolder.success(stack);
                 case 2:
             }
             return InteractionResultHolder.success(stack);

@@ -50,9 +50,9 @@ public class ModItem {
 
     public static final Supplier<Item> SATCHEL =
             ITEMS.register("satchel", () -> new SatchelItem(new Item.Properties()
-                    .durability(456)
-                    .rarity(Rarity.EPIC)
+                    .rarity(Rarity.RARE)
                     .stacksTo(1)
+                    .component(ModDataComponents.STORED_POTION, 4)
             ));
     public static final Supplier<Item> DESERT_WANDERER_PICKAXE =
             ITEMS.register("desert_wanderer_pickaxe", () -> new PickaxeItem(
