@@ -52,6 +52,7 @@ public class ModItem {
             ITEMS.register("satchel", () -> new SatchelItem(new Item.Properties()
                     .rarity(Rarity.RARE)
                     .stacksTo(1)
+                    .durability(190)
                     .component(ModDataComponents.STORED_POTION, 4)
             ));
     public static final Supplier<Item> DESERT_WANDERER_PICKAXE =

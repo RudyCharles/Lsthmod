@@ -3,6 +3,20 @@
   "description": {
     "translate": "enchantment.lsthmod.powerful_potion"
   },
+  "effects": {
+    "minecraft:damage": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": {
+            "type": "minecraft:linear",
+            "base": 2.0,
+            "per_level_above_first": 2.0
+          }
+        }
+      }
+    ]
+  },
   "max_cost": {
     "base": 25,
     "per_level_above_first": 8

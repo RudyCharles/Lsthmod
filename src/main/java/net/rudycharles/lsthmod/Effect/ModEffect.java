@@ -17,6 +17,11 @@ public class ModEffect {
                     () -> new ChargedEffect(MobEffectCategory.HARMFUL, 0xc7e3ff)
             );
 
+    public static final Holder<MobEffect> BURNING_EFFECT =
+            MOB_EFFECT.register("burning",
+                    () -> new BurningEffect(MobEffectCategory.HARMFUL, 16756580)
+            );
+
     public static void register(IEventBus eventBus) {
         MOB_EFFECT.register(eventBus);
     }

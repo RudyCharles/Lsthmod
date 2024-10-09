@@ -24,7 +24,11 @@ import net.rudycharles.lsthmod.Enchantment.effects.ChilledEffect;
 import net.rudycharles.lsthmod.Enchantment.effects.FireAuraEffect;
 import net.rudycharles.lsthmod.Entity.ModEntity;
 import net.rudycharles.lsthmod.Lsthmod;
+import net.rudycharles.lsthmod.Registries.ModDataComponents;
+import net.rudycharles.lsthmod.Registries.ModEnchantmentEffectComponents;
 import net.rudycharles.lsthmod.Util.ModTag;
+
+import java.util.Objects;
 
 public class ModEnchantment {
 
@@ -197,7 +201,8 @@ public class ModEnchantment {
                                         8,
                                         EquipmentSlotGroup.HAND
                                 )
-                        )
+                        ).withSpecialEffect(ModEnchantmentEffectComponents.MAX_POTION.get(),
+                        new AddValue(LevelBasedValue.perLevel(4)))
         );
         register(bootstrapContext, FAN_FIRE,
                 Enchantment.enchantment(Enchantment.definition(
@@ -237,7 +242,8 @@ public class ModEnchantment {
                                 4,
                                 EquipmentSlotGroup.HAND
                         )
-                )
+                ).withEffect(EnchantmentEffectComponents.DAMAGE,
+                        new AddValue(LevelBasedValue.perLevel(2F)))
         );
         register(bootstrapContext, LARGER_POTION,
                 Enchantment.enchantment(Enchantment.definition(
@@ -249,7 +255,8 @@ public class ModEnchantment {
                                 4,
                                 EquipmentSlotGroup.HAND
                         )
-                )
+                ).withEffect(ModEnchantmentEffectComponents.POTION_RADIUS.get(),
+                        new AddValue(LevelBasedValue.perLevel(1.5f)))
         );
     }
 

@@ -8,6 +8,8 @@ import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Lsthmod;
+import net.rudycharles.lsthmod.Registries.ModDataComponents;
+import net.rudycharles.lsthmod.Registries.ModEnchantmentEffectComponents;
 import net.rudycharles.lsthmod.Worldgen.ModBiomeModifier;
 import net.rudycharles.lsthmod.Worldgen.ModConfiguredFeatures;
 import net.rudycharles.lsthmod.Worldgen.ModPlacedFeatures;

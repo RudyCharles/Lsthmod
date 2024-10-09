@@ -5,17 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,21 +18,17 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.rudycharles.lsthmod.Block.ModBlock;
 import net.rudycharles.lsthmod.Effect.ModEffect;
 import net.rudycharles.lsthmod.Enchantment.effects.ModEnchantmentEffect;
 import net.rudycharles.lsthmod.Entity.ModEntity;
-import net.rudycharles.lsthmod.Entity.attribute.ModAttribute;
 import net.rudycharles.lsthmod.Item.CreativeModTab;
 import net.rudycharles.lsthmod.Item.ModArmorTier;
 import net.rudycharles.lsthmod.Item.ModItem;
 import net.rudycharles.lsthmod.Loot.ModLootModifier;
 import net.rudycharles.lsthmod.Potion.ModPotion;
 import net.rudycharles.lsthmod.Registries.ModDataComponents;
+import net.rudycharles.lsthmod.Registries.ModEnchantmentEffectComponents;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -65,12 +51,12 @@ public class Lsthmod {
         CreativeModTab.register(modEventBus);
         ModLootModifier.register(modEventBus);
         ModEntity.register(modEventBus);
-        ModAttribute.register(modEventBus);
         ModEffect.register(modEventBus);
         ModPotion.register(modEventBus);
         ModEnchantmentEffect.register(modEventBus);
         ModArmorTier.register(modEventBus);
         ModDataComponents.register(modEventBus);
+        ModEnchantmentEffectComponents.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

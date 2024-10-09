@@ -3,6 +3,16 @@
   "description": {
     "translate": "enchantment.lsthmod.deeper_pocket"
   },
+  "effects": {
+    "lsthmod:max_potion": {
+      "type": "minecraft:add",
+      "value": {
+        "type": "minecraft:linear",
+        "base": 4.0,
+        "per_level_above_first": 4.0
+      }
+    }
+  },
   "max_cost": {
     "base": 50,
     "per_level_above_first": 0

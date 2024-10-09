@@ -6,6 +6,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -30,6 +32,8 @@ import net.minecraft.world.phys.HitResult;
 import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Entity.ModEntity;
 import net.rudycharles.lsthmod.Item.ModItem;
+import net.rudycharles.lsthmod.Util.ExtraEnchantmentHelper;
+import net.rudycharles.lsthmod.Util.ModTag;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -67,7 +71,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
     @Override
     protected void onHitBlock(BlockHitResult pResult) {
         super.onHitBlock(pResult);
-        if (!this.level().isClientSide) {
+        /*if (!this.level().isClientSide) {
             ItemStack itemstack = this.getItem();
             Direction direction = pResult.getDirection();
             BlockPos blockpos = pResult.getBlockPos();
@@ -83,7 +87,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
                     this.dowseFire(blockpos1.relative(direction1));
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -92,15 +96,14 @@ public class SatchelPotion extends ThrowableItemProjectile {
         if (!this.level().isClientSide) {
             ItemStack itemstack = this.getItem();
             PotionContents potioncontents = itemstack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
-            if (potioncontents.is(Potions.WATER)) {
-                this.applyWater();
-            } else if (potioncontents.hasEffects()) {
-                if (this.isLingering()) {
-                    this.makeAreaOfEffectCloud(potioncontents);
-                } else {
-                    this.applySplash(
-                            potioncontents.getAllEffects(), pResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult)pResult).getEntity() : null
-                    );
+            if (potioncontents.hasEffects()) {
+                if (this.getOwner() instanceof LivingEntity livingEntity) {
+                    var e = this.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+                    var elvl = EnchantmentHelper.getEnchantmentLevel(e.getOrThrow(ModEnchantment.FIERY_PREP), livingEntity);
+                    if (elvl > 0) {
+                        this.applyDamage(pResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult)pResult).getEntity() : null);
+                        this.makeAreaOfEffectCloud(potioncontents);
+                    }
                 }
             } else if (itemstack.is(ModItem.MAGIC_POTION.get())){
                 this.applyDamage(pResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult)pResult).getEntity() : null);
@@ -116,7 +119,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
         }
     }
 
-    private void applyWater() {
+    /*private void applyWater() {
         AABB aabb = this.getBoundingBox().inflate(4.0, 2.0, 4.0);
         var enchantmentRegistry = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
         var rad = this.baseRadiusSqr;
@@ -140,7 +143,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
         for (Axolotl axolotl : this.level().getEntitiesOfClass(Axolotl.class, aabb)) {
             axolotl.rehydrate();
         }
-    }
+    }*/
 
     private void applyDamage(@Nullable Entity pEntity) {
         AABB aabb = this.getBoundingBox().inflate(4.0, 2.0, 4.0);
@@ -149,22 +152,21 @@ public class SatchelPotion extends ThrowableItemProjectile {
         var enchantments = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
         Entity owner = this.getOwner();
         var rad = this.baseRadiusSqr;
+        assert owner != null;
+        ItemStack stack = owner.getWeaponItem();
 
         List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, aabb);
         if (!list.isEmpty()) {
             for (LivingEntity livingentity : list) {
                 double d0 = this.distanceToSqr(livingentity);
-                if (owner instanceof LivingEntity livingEntity2) {
-                    var level = EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.LARGER_POTION), livingEntity2);
-                    if (d0 <= rad + (level*3)) {
+                if (this.level() instanceof ServerLevel serverLevel) {
+                    double rd = ExtraEnchantmentHelper.getPotionRadius(stack, owner, serverLevel);
+                    if (d0 <= rad + rd) {
                         double d1 = 1.0 - sqrt(d0) / 5.0;
                         double d3 = this.position().x - livingentity.position().x;
                         double d4 = this.position().z - livingentity.position().z;
-                        int i = EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.POWERFUL_POTION), livingEntity2);
-                        livingentity.hurt(damagesource, (float) ((dmg + (i * 2)) * d1));
-                        if (EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.FIERY_PREP), livingEntity2) > 0) {
-                            livingentity.setRemainingFireTicks(80);
-                        }
+                        double d5 = EnchantmentHelper.modifyDamage(serverLevel, stack, livingentity, damagesource,(float) dmg);
+                        livingentity.hurt(damagesource, (float) ((d5 * d1)));
                         livingentity.knockback(0.4*d1,d3,d4);
                     }
                 }
@@ -174,7 +176,7 @@ public class SatchelPotion extends ThrowableItemProjectile {
     }
 
 
-    private void applySplash(Iterable<MobEffectInstance> pEffects, @Nullable Entity pEntity) {
+    /*private void applySplash(Iterable<MobEffectInstance> pEffects, @Nullable Entity pEntity) {
         AABB aabb = this.getBoundingBox().inflate(4.0, 2.0, 4.0);
         var enchantments = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
         var rad = this.baseRadiusSqr;
@@ -216,18 +218,19 @@ public class SatchelPotion extends ThrowableItemProjectile {
             }
 
         }
-    }
+    }*/
 
     private void makeAreaOfEffectCloud(PotionContents pPotionContents) {
         AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
-        var enchantments = this.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
 
         if (this.getOwner() instanceof LivingEntity livingentity) {
-            areaeffectcloud.setOwner(livingentity);
-            var level = EnchantmentHelper.getEnchantmentLevel(enchantments.getHolderOrThrow(ModEnchantment.LARGER_POTION), livingentity);
-            areaeffectcloud.setRadius((float) (3.0F + sqrt(level*3)/3));
+            if (this.level() instanceof ServerLevel serverLevel) {
+                double rd = ExtraEnchantmentHelper.getPotionRadius(livingentity.getWeaponItem(), livingentity, serverLevel);
+                areaeffectcloud.setOwner(livingentity);
+                areaeffectcloud.setRadius((float) (1.5F + sqrt(rd)));
+            }
         } else {
-            areaeffectcloud.setRadius(3.0f);
+            areaeffectcloud.setRadius(1.5f);
         }
         areaeffectcloud.setRadiusOnUse(-0.5F);
         areaeffectcloud.setWaitTime(10);
@@ -236,11 +239,11 @@ public class SatchelPotion extends ThrowableItemProjectile {
         this.level().addFreshEntity(areaeffectcloud);
     }
 
-    private boolean isLingering() {
+    /*private boolean isLingering() {
         return this.getItem().is(Items.LINGERING_POTION);
-    }
+    }*/
 
-    private void dowseFire(BlockPos pPos) {
+    /*private void dowseFire(BlockPos pPos) {
         BlockState blockstate = this.level().getBlockState(pPos);
         if (blockstate.is(BlockTags.FIRE)) {
             this.level().destroyBlock(pPos, false, this);
@@ -251,12 +254,17 @@ public class SatchelPotion extends ThrowableItemProjectile {
             CampfireBlock.dowse(this.getOwner(), this.level(), pPos, blockstate);
             this.level().setBlockAndUpdate(pPos, blockstate.setValue(CampfireBlock.LIT, Boolean.valueOf(false)));
         }
-    }
+    }*/
 
     @Override
     public DoubleDoubleImmutablePair calculateHorizontalHurtKnockbackDirection(LivingEntity p_345103_, DamageSource p_345887_) {
         double d0 = p_345103_.position().x - this.position().x;
         double d1 = p_345103_.position().z - this.position().z;
         return DoubleDoubleImmutablePair.of(d0, d1);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
     }
 }

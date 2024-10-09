@@ -3,25 +3,6 @@
   "description": {
     "translate": "enchantment.lsthmod.field_prep"
   },
-  "effects": {
-    "minecraft:hit_block": [
-      {
-        "effect": {
-          "type": "minecraft:all_of",
-          "effects": [
-            {
-              "type": "minecraft:ignite",
-              "duration": {
-                "type": "minecraft:linear",
-                "base": 80.0,
-                "per_level_above_first": 80.0
-              }
-            }
-          ]
-        }
-      }
-    ]
-  },
   "max_cost": {
     "base": 50,
     "per_level_above_first": 0

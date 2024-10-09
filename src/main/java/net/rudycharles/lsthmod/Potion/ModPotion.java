@@ -9,9 +9,19 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.rudycharles.lsthmod.Lsthmod;
 import net.rudycharles.lsthmod.Effect.ModEffect;
 
+import java.util.function.Supplier;
+
 public class ModPotion {
     public static final DeferredRegister<Potion> POTION =
             DeferredRegister.create(Registries.POTION, Lsthmod.MODID);
+
+    public static final Holder<Potion> BURNING_POTION =
+            POTION.register("burning", () -> new Potion(new MobEffectInstance(ModEffect.BURNING_EFFECT,
+                    600,
+                    0,
+                    true,
+                    true,
+                    false)));
 
     public static void register(IEventBus eventBus) {
         POTION.register(eventBus);

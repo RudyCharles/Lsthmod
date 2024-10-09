@@ -1,5 +1,7 @@
 package net.rudycharles.lsthmod.Item.custom;
 
+import net.minecraft.advancements.critereon.MobEffectsPredicate;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -7,18 +9,28 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.rudycharles.lsthmod.Effect.ModEffect;
 import net.rudycharles.lsthmod.Entity.custom.SatchelPotion;
 import net.rudycharles.lsthmod.Enchantment.ModEnchantment;
 import net.rudycharles.lsthmod.Item.ModItem;
+import net.rudycharles.lsthmod.Potion.ModPotion;
 import net.rudycharles.lsthmod.Registries.ModDataComponents;
+import net.rudycharles.lsthmod.Util.ExtraEnchantmentHelper;
 import net.rudycharles.lsthmod.Util.ModTag;
 import org.apache.commons.lang3.math.Fraction;
 import org.joml.Quaternionf;
@@ -41,9 +53,14 @@ public class SatchelItem extends ProjectileWeaponItem {
     }
 
     protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weapon) {
-        //var var1 = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        //int elevel1 = EnchantmentHelper.getEnchantmentLevel(var1.getOrThrow(ModEnchantment.), shooter);
+        var var1 = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        int elevel1 = EnchantmentHelper.getEnchantmentLevel(var1.getOrThrow(ModEnchantment.FIERY_PREP), shooter);
         SatchelPotion satchelPotion = new SatchelPotion(level, shooter);
+        if (elevel1 > 0) {
+            ItemStack stack = PotionContents.createItemStack(Items.SPLASH_POTION, ModPotion.BURNING_POTION);
+            satchelPotion.setItem(stack);
+            return satchelPotion;
+        }
         return satchelPotion;
     }
 
@@ -53,25 +70,25 @@ public class SatchelItem extends ProjectileWeaponItem {
         int amount = weapon.getOrDefault(ModDataComponents.STORED_POTION, 0);
         float f = EnchantmentHelper.processProjectileSpread(level, weapon, shooter, 0.0F);
         var var10000 = EnchantmentHelper.processProjectileCount(level, weapon, shooter, 1);
-        float f1 = amount == 1 ? 0.0F : 2.0F * f / 4;
+        float f1 = 2.0F * f / 4;
         float f2 = (float)((amount - 1) % 2) * f1 / 2.0F;
         float f3 = 1.0F;
-        if (amount > 0) {
+        if (amount >= 1) {
             for (int i = 0; i < var10000; ++i) {
                 float f4 = f2 + f3 * (float) ((i + 1) / 2) * f1;
                 f3 = -f3;
                 Projectile projectile = this.createProjectile(level, shooter, weapon);
                 this.shootProjectile(shooter, projectile, i, velocity, inaccuracy, f4, target);
                 level.addFreshEntity(projectile);
+                level.playSound(null,
+                        shooter.getX(),
+                        shooter.getY(),
+                        shooter.getZ(),
+                        SoundEvents.BUNDLE_REMOVE_ONE,
+                        shooter.getSoundSource(),
+                        1.0F,
+                        1.0f);
             }
-            level.playSound(null,
-                    shooter.getX(),
-                    shooter.getY(),
-                    shooter.getZ(),
-                    SoundEvents.BUNDLE_REMOVE_ONE,
-                    shooter.getSoundSource(),
-                    1.0F,
-                    1.0f);
         }
     }
 
@@ -111,35 +128,32 @@ public class SatchelItem extends ProjectileWeaponItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pHand) {
         ItemStack itemstack = player.getItemInHand(pHand);
         int amount = itemstack.getOrDefault(ModDataComponents.STORED_POTION, 0);
-        var var1 = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        int elevel = EnchantmentHelper.getEnchantmentLevel(var1.getOrThrow(ModEnchantment.DEEPER_RESERVE), player);
         if (level instanceof ServerLevel serverlevel) {
-            if (amount > 1) {
+            if (amount >= 1) {
                 this.shoot(serverlevel,
                         player,
                         itemstack,
                         0.75F,
                         0.0f,
                         null);
+                itemstack.hurtAndBreak(this.getDurabilityUse(itemstack), player, player.getEquipmentSlotForItem(itemstack));
                 if (!player.hasInfiniteMaterials()) {
-                    itemstack.set(ModDataComponents.STORED_POTION, itemstack.get(ModDataComponents.STORED_POTION) - 1);
+                    itemstack.set(ModDataComponents.STORED_POTION, amount - 1);
                 }
             } else {
-                this.shoot(serverlevel,
-                    player,
-                    itemstack,
-                    0.75F,
-                    0.0f,
-                    null);
-                if (!player.hasInfiniteMaterials()) {
-                    itemstack.set(ModDataComponents.STORED_POTION, itemstack.get(ModDataComponents.STORED_POTION) - 1);
-                }
-                player.getCooldowns().addCooldown(ModItem.SATCHEL.get(), 60);
-                itemstack.set(ModDataComponents.STORED_POTION, default_amount + (elevel*4));
+                level.playSound(
+                        null,
+                        player.getX(),
+                        player.getY(),
+                        player.getZ(),
+                        SoundEvents.CONDUIT_ACTIVATE,
+                        player.getSoundSource(),
+                        2.0F,
+                        1.0f);
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide);
+        return InteractionResultHolder.success(itemstack);
     }
 
     @Override
@@ -178,6 +192,30 @@ public class SatchelItem extends ProjectileWeaponItem {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return stack.get(ModDataComponents.STORED_POTION) > 4 ? 13107200 : 4915300;
+        return stack.get(ModDataComponents.STORED_POTION) > 4 ? 13107200 : 13133055;
+    }
+
+    @Override
+    protected int getDurabilityUse(ItemStack stack) {
+        return 4;
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
+        return super.onEntitySwing(stack, entity, hand);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        int tick = stack.getOrDefault(ModDataComponents.TICK, 1);
+        int count = stack.getOrDefault(ModDataComponents.STORED_POTION, 0);
+        stack.set(ModDataComponents.TICK, tick + 1);
+        if (entity instanceof LivingEntity livingEntity) {
+            int elevel = ExtraEnchantmentHelper.getMaximumCharge(stack, entity);
+            if (count < default_amount + elevel && tick % 120 == 0) {
+                stack.set(ModDataComponents.STORED_POTION, count + 1);
+                stack.set(ModDataComponents.TICK, 1);
+            }
+        }
     }
 }
